@@ -1,0 +1,67 @@
+{
+    "spec": {
+        "strategy": {
+            "type": "Recreate"
+        },
+        "template": {
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "SPRING_DATASOURCE_USERNAME",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "name": "narayana-database",
+                                        "key": "database-user"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SPRING_DATASOURCE_PASSWORD",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "name": "narayana-database",
+                                        "key": "database-password"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SPRING_ACTIVEMQ_USER",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "name": "broker-amq",
+                                        "key": "broker-user"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "SPRING_ACTIVEMQ_PASSWORD",
+                                "valueFrom": {
+                                    "secretKeyRef": {
+                                        "name": "broker-amq",
+                                        "key": "broker-password"
+                                    }
+                                }
+                            }
+                        ],
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/transaction/data",
+                                "name": "spring-boot-camel-narayana-data"
+                            }
+                        ]
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "spring-boot-camel-narayana-data",
+                        "persistentVolumeClaim": {
+                            "claimName": "spring-boot-camel-narayana"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
