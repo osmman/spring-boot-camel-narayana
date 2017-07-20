@@ -26,14 +26,22 @@ import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.camel.component.sql.SqlComponent;
 import org.apache.camel.spring.spi.SpringTransactionPolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @SpringBootApplication
 public class SpringBootNarayanaApplication {
+
+	private static final Logger LOG = LoggerFactory.getLogger(SpringBootNarayanaApplication.class);
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(SpringBootNarayanaApplication.class, args);
@@ -68,15 +76,25 @@ public class SpringBootNarayanaApplication {
 		return servlet;
 	}
 
+
 	/**
 	 * Dummy xa resource recovery to simulate a crash before final commit.
-     * This is (obviously) not needed in production.
+	 *
+	 * This is (obviously) not needed in production and must be removed.
 	 */
-	@Bean
-	public DummyXAResourceRecovery dummyXAResourceRecovery(RecoveryManagerService recoveryManagerService) {
-		DummyXAResourceRecovery dummyRecovery = new DummyXAResourceRecovery();
-		recoveryManagerService.addXAResourceRecovery(dummyRecovery);
-		return dummyRecovery;
+	@Component
+	static class ApplicationCrashConfiguration implements ApplicationListener<ApplicationReadyEvent> {
+
+		@Autowired
+		private RecoveryManagerService recoveryManagerService;
+
+		@Override
+		public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+			LOG.warn("Adding DummyXAResourceRecovery to recovery manager service");
+			DummyXAResourceRecovery dummyRecovery = new DummyXAResourceRecovery();
+			recoveryManagerService.addXAResourceRecovery(dummyRecovery);
+		}
+
 	}
 
 }
