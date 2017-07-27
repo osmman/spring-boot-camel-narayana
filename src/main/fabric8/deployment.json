@@ -43,6 +43,10 @@
                                         "key": "broker-password"
                                     }
                                 }
+                            },
+                            {
+                                "name": "SPRING_JTA_LOG_DIR",
+                                "value": "/var/transaction/data"
                             }
                         ],
                         "volumeMounts": [

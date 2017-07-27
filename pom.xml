@@ -19,16 +19,44 @@
 
 		<!-- configure the versions you want to use here -->
 		<fabric8.version>2.3.1</fabric8.version>
-		<spring-boot.version>1.4.5.RELEASE</spring-boot.version>
+		<spring-boot.version>1.4.1.RELEASE</spring-boot.version>
+		<!--<narayana.version>5.3.4.Final</narayana.version>-->
+		<narayana.version>5.6.3.Final</narayana.version>
+		<jboss-transaction.version>7.6.0.Final</jboss-transaction.version>
 
 		<!-- maven plugin versions -->
-		<fabric8.maven.plugin.version>3.5.9</fabric8.maven.plugin.version>
+		<fabric8.maven.plugin.version>3.3.5</fabric8.maven.plugin.version>
 		<maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.jboss</groupId>
+				<artifactId>jboss-transaction-spi</artifactId>
+				<version>${jboss-transaction.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.narayana.jta</groupId>
+				<artifactId>jdbc</artifactId>
+				<version>${narayana.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.narayana.jta</groupId>
+				<artifactId>jms</artifactId>
+				<version>${narayana.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.narayana.jta</groupId>
+				<artifactId>jta</artifactId>
+				<version>${narayana.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.narayana.jts</groupId>
+				<artifactId>narayana-jts-integration</artifactId>
+				<version>${narayana.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>io.fabric8</groupId>
 				<artifactId>fabric8-project-bom-camel-spring-boot</artifactId>
