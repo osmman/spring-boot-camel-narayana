@@ -20,7 +20,7 @@
 		<!-- configure the versions you want to use here -->
 		<fabric8.version>2.3.1</fabric8.version>
 		<spring-boot.version>1.4.1.RELEASE</spring-boot.version>
-		<narayana.version>5.5.30.Final-redhat-1</narayana.version>
+		<narayana.version>5.5.30.Final</narayana.version>
 		<jboss-transaction.version>7.6.0.Final-redhat-1</jboss-transaction.version>
 
 		<!-- maven plugin versions -->
@@ -70,6 +70,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
